@@ -33,5 +33,71 @@
         <projection_type>perspective</projection_type>
       </camera>
     </gui>
+
+    <!-- ====== A) 歩行者の見た目・歩行軌道 ====== -->
+    <actor name="ped1">
+      <!-- 初期姿勢: x y z R P Y -->
+      <pose>6 1.1 0 0 0 3.14</pose>
+
+      <!-- 歩行アニメのスキン。walk.dae の置き場所は後述 -->
+      <skin>
+        <!-- 例: パッケージの models/walking_person/meshes/walk.dae に置いた場合 -->
+        <filename>model://walking_person/meshes/walk.dae</filename>
+      </skin>
+
+      <animation name="walking">
+        <filename>model://walking_person/meshes/walk.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+
+      <!-- ウェイポイント軌道（必要に応じて編集OK） -->
+      <script>
+        <trajectory id="0" type="walking">
+          <waypoint><time>0</time>    <pose>6   1.1 0 0 0  3.14</pose></waypoint>
+          <waypoint><time>25</time>   <pose>-9  1.1 0 0 0  3.14</pose></waypoint>
+          <waypoint><time>27.5</time> <pose>-9  6.5 0 0 0  0</pose></waypoint>
+          <waypoint><time>30</time>   <pose>9.5 6.5 0 0 0  0</pose></waypoint>
+          <waypoint><time>32.5</time> <pose>9.5 1.1 0 0 0 -3.14</pose></waypoint>
+          <waypoint><time>37.5</time> <pose>6   1.1 0 0 0 -3.14</pose></waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <!-- ====== B) LIDARに映る衝突体（Actorに追従させる円柱） ====== -->
+    <model name="ped1_collision">
+      <!-- Actorと同じ初期姿勢にしておく -->
+      <pose>6 1.1 0 0 0 3.14</pose>
+      <static>false</static>
+      <link name="body">
+        <!-- 衝突（円柱）：半径/長さは人の胴体っぽく調整 -->
+        <collision name="col">
+          <pose>0 0 0.9 0 0 0</pose> <!-- 中心を地上0.9mに（長さ1.8mの中央が人の胴体中心に来る） -->
+          <geometry>
+            <cylinder>
+              <radius>0.3</radius>
+              <length>1.8</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <!-- 視覚（任意）：RViz/Gazeboで見えるように -->
+        <visual name="vis">
+          <pose>0 0 0.9 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.3</radius>
+              <length>1.8</length>
+            </cylinder>
+          </geometry>
+        </visual>
+      </link>
+
+      <!-- 追従プラグイン：Actor ped1 のPoseに同期移動させる -->
+      <plugin name="follow_ped1" filename="libfollow_actor.so">
+        <actor_name>ped1</actor_name>   <!-- 追従したいActor名 -->
+        <link_name>body</link_name>     <!-- 動かすリンク名 -->
+        <z_offset>0.0</z_offset>        <!-- 必要なら微調整 -->
+      </plugin>
+    </model>
+
   </world>
 </sdf>
