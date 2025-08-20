@@ -223,9 +223,11 @@
       </animation>
       <script>
         <trajectory id="0" type="walking">
-          <waypoint><time>0</time>  <pose>-3 1 0 0 0 1.57</pose></waypoint>
-          <waypoint><time>5</time>  <pose> 3 1 0 0 0 1.57</pose></waypoint>
-          <waypoint><time>10</time> <pose>-3 1 0 0 0 1.57</pose></waypoint>
+          <waypoint><time>0</time>    <pose>5  8 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>4.9</time>  <pose>5 -4 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>5.0</time>  <pose>5 -4 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>9.9</time>  <pose>5  8 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>10.0</time> <pose>5  8 0 0 0 -1.57</pose></waypoint>
         </trajectory>
       </script>
     </actor>
