@@ -88,6 +88,14 @@
               <length>1.8</length>
             </cylinder>
           </geometry>
+          <material>
+            <ambient>0 0 0 0</ambient>
+            <diffuse>0 0 0 0</diffuse>
+            <specular>0 0 0 0</specular>
+            <emissive>0 0 0 0</emissive>
+            <transparency>1.0</transparency> <!-- 完全透明 -->
+          </material>
+          <cast_shadows>false</cast_shadows> <!-- 影も消す -->
         </visual>
       </link>
 
