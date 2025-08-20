@@ -42,11 +42,16 @@ namespace gazebo
 
       ignition::math::Pose3d pose = actor->WorldPose();
 
-      // 必要ならz方向オフセット
-      pose.Pos().Z() += z_offset_;
+      // yaw だけ採用：roll/pitchは常に 0（直立）
+      const double yaw = pose.Rot().Yaw();
+      ignition::math::Quaterniond q(0, 0, yaw);
+      ignition::math::Pose3d lpose(pose.Pos(), q);
+
+      // 必要なら高さを微調整（worldのcollision/visualで z=0.9 を入れているなら 0.0 のままがいい）
+      lpose.Pos().Z() += z_offset_;
 
       // このモデル（円柱）のリンクをActor位置へ“ワープ”
-      link_->SetWorldPose(pose, true, true);
+      link_->SetWorldPose(lpose, true, true);
     }
 
   private:
