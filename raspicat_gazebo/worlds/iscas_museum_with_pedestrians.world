@@ -39,7 +39,7 @@
     <!-- ====== A) 歩行者の見た目・歩行軌道 ====== -->
     <actor name="ped1">
       <!-- 初期姿勢: x y z R P Y -->
-      <pose>6 1.1 0 0 0 3.14</pose>
+      <pose>-5.5 9 0 0 0 0</pose>
 
       <!-- 歩行アニメのスキン。walk.dae の置き場所は後述 -->
       <skin>
@@ -55,11 +55,11 @@
       <!-- ウェイポイント軌道（必要に応じて編集OK） -->
       <script>
         <trajectory id="0" type="walking">
-          <waypoint><time>0</time>  <pose>-7 9 0 0 0    0</pose></waypoint>
-          <waypoint><time>10</time> <pose> 6 9 0 0 0    0</pose></waypoint>
-          <waypoint><time>13</time> <pose> 6 9 0 0 0 3.14</pose></waypoint>
-          <waypoint><time>23</time> <pose>-7 9 0 0 0 3.14</pose></waypoint>
-          <waypoint><time>26</time> <pose>-7 9 0 0 0    0</pose></waypoint>
+          <waypoint><time>0</time>  <pose>-5.5 9 0 0 0    0</pose></waypoint>
+          <waypoint><time>10</time> <pose>   4 9 0 0 0    0</pose></waypoint>
+          <waypoint><time>13</time> <pose>   4 9 0 0 0 3.14</pose></waypoint>
+          <waypoint><time>23</time> <pose>-5.5 9 0 0 0 3.14</pose></waypoint>
+          <waypoint><time>26</time> <pose>-5.5 9 0 0 0    0</pose></waypoint>
         </trajectory>
       </script>
     </actor>
@@ -67,7 +67,7 @@
     <!-- ====== B) LIDARに映る衝突体（Actorに追従させる円柱） ====== -->
     <model name="ped1_collision">
       <!-- Actorと同じ初期姿勢にしておく -->
-      <pose>6 1.1 0 0 0 3.14</pose>
+      <pose>-5.5 9 0 0 0 0</pose>
       <static>false</static>
       <link name="body">
         <!-- 衝突（円柱）：半径/長さは人の胴体っぽく調整 -->
