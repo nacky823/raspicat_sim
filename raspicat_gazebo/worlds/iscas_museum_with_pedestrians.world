@@ -111,7 +111,7 @@
 
     <!-- ================================= 歩行者: 2人目 ================================= -->
     <actor name="ped2">
-      <pose>3 1.1 0 0 0 3.14</pose>
+      <pose>3.5 5 0 0 0 1.75</pose>
       <skin><filename>model://walking_person/meshes/walk.dae</filename></skin>
       <animation name="walking">
         <filename>model://walking_person/meshes/walk.dae</filename>
@@ -135,7 +135,7 @@
     </actor>
 
     <model name="ped2_collision">
-      <pose>3 1.1 0 0 0 3.14</pose>
+      <pose>3.5 5 0 0 0 1.75</pose>
       <static>false</static>
       <link name="body">
         <collision name="col">
