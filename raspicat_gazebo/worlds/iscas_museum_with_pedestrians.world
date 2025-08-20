@@ -55,12 +55,11 @@
       <!-- ウェイポイント軌道（必要に応じて編集OK） -->
       <script>
         <trajectory id="0" type="walking">
-          <waypoint><time>0</time>    <pose>6   1.1 0 0 0  3.14</pose></waypoint>
-          <waypoint><time>25</time>   <pose>-9  1.1 0 0 0  3.14</pose></waypoint>
-          <waypoint><time>27.5</time> <pose>-9  6.5 0 0 0  0</pose></waypoint>
-          <waypoint><time>30</time>   <pose>9.5 6.5 0 0 0  0</pose></waypoint>
-          <waypoint><time>32.5</time> <pose>9.5 1.1 0 0 0 -3.14</pose></waypoint>
-          <waypoint><time>37.5</time> <pose>6   1.1 0 0 0 -3.14</pose></waypoint>
+          <waypoint><time>0</time>  <pose>-7 9 0 0 0    0</pose></waypoint>
+          <waypoint><time>10</time> <pose> 6 9 0 0 0    0</pose></waypoint>
+          <waypoint><time>13</time> <pose> 6 9 0 0 0 3.14</pose></waypoint>
+          <waypoint><time>23</time> <pose>-7 9 0 0 0 3.14</pose></waypoint>
+          <waypoint><time>26</time> <pose>-7 9 0 0 0    0</pose></waypoint>
         </trajectory>
       </script>
     </actor>
