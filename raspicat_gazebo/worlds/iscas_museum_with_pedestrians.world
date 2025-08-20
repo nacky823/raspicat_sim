@@ -135,26 +135,14 @@
       <link name="body">
         <collision name="col">
           <pose>0 0 0 0 0 0</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.3</radius>
-              <length>1.8</length>
-            </cylinder>
-          </geometry>
+          <geometry><cylinder><radius>0.3</radius> <length>1.8</length></cylinder></geometry>
         </collision>
         <visual name="vis">
           <pose>0 0 0 0 0 0</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.3</radius>
-              <length>1.8</length>
-            </cylinder>
-          </geometry>
+          <geometry><cylinder><radius>0.3</radius> <length>1.8</length></cylinder></geometry>
           <material>
-            <ambient>0 0 0 0</ambient>
-            <diffuse>0 0 0 0</diffuse>
-            <specular>0 0 0 0</specular>
-            <emissive>0 0 0 0</emissive>
+            <ambient>0 0 0 0</ambient><diffuse>0 0 0 0</diffuse>
+            <specular>0 0 0 0</specular><emissive>0 0 0 0</emissive>
             <transparency>1.0</transparency>
           </material>
           <cast_shadows>false</cast_shadows>
