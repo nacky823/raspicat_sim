@@ -71,7 +71,7 @@
       <link name="body">
         <!-- 衝突（円柱）：半径/長さは人の胴体っぽく調整 -->
         <collision name="col">
-          <pose>0 0 0.9 0 0 0</pose> <!-- 中心を地上0.9mに（長さ1.8mの中央が人の胴体中心に来る） -->
+          <pose>0 0 0 0 0 0</pose> <!-- 中心を地上0.9mに（長さ1.8mの中央が人の胴体中心に来る） -->
           <geometry>
             <cylinder>
               <radius>0.3</radius>
@@ -81,7 +81,7 @@
         </collision>
         <!-- 視覚（任意）：RViz/Gazeboで見えるように -->
         <visual name="vis">
-          <pose>0 0 0.9 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <cylinder>
               <radius>0.3</radius>
