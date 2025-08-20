@@ -119,12 +119,17 @@
       </animation>
       <script>
         <trajectory id="0" type="walking">
-          <waypoint><time>0</time>    <pose>3   1.1 0 0 0  3.14</pose></waypoint>
-          <waypoint><time>15</time>   <pose>-9  1.5 0 0 0  3.14</pose></waypoint>
-          <waypoint><time>20.5</time> <pose>-7  6.0 0 0 0  0</pose></waypoint>
-          <waypoint><time>32</time>   <pose>9.0 5.0 0 0 0  0</pose></waypoint>
-          <waypoint><time>35.5</time> <pose>9.5 2.1 0 0 0 -3.14</pose></waypoint>
-          <waypoint><time>39.5</time> <pose>6   0.1 0 0 0 -3.14</pose></waypoint>
+          <waypoint><time>0</time>    <pose>3.5 5 0 0 0   1.75</pose></waypoint>
+          <waypoint><time>4.0</time>  <pose>3.5 8 0 0 0   1.75</pose></waypoint>
+          <waypoint><time>6.0</time>  <pose>3.5 8 0 0 0 -2.265</pose></waypoint>
+          <waypoint><time>11.0</time> <pose> -1 5 0 0 0 -2.265</pose></waypoint>
+          <waypoint><time>13.0</time> <pose> -1 5 0 0 0   1.75</pose></waypoint>
+          <waypoint><time>17.0</time> <pose> -1 8 0 0 0   1.75</pose></waypoint>
+          <waypoint><time>19.0</time> <pose> -1 8 0 0 0 -2.265</pose></waypoint>
+          <waypoint><time>24.0</time> <pose> -5 5 0 0 0 -2.265</pose></waypoint>
+          <waypoint><time>26.0</time> <pose> -5 5 0 0 0      0</pose></waypoint>
+          <waypoint><time>32.0</time> <pose>3.5 5 0 0 0      0</pose></waypoint>
+          <waypoint><time>35.0</time> <pose>3.5 5 0 0 0   1.75</pose></waypoint>
         </trajectory>
       </script>
     </actor>
