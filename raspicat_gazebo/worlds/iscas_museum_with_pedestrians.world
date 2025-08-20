@@ -224,7 +224,7 @@
 
     <!-- ================================= 歩行者: 4人目 ================================= -->
     <actor name="ped4">
-      <pose>5 8 0 0 0 -1.57</pose>
+      <pose>5 6.5 0 0 0 -1.57</pose>
       <skin><filename>model://walking_person/meshes/walk.dae</filename></skin>
       <animation name="walking">
         <filename>model://walking_person/meshes/walk.dae</filename>
@@ -232,17 +232,17 @@
       </animation>
       <script>
         <trajectory id="0" type="walking">
-          <waypoint><time>0</time>    <pose>5  8 0 0 0 -1.57</pose></waypoint>
-          <waypoint><time>4.9</time>  <pose>5 -4 0 0 0 -1.57</pose></waypoint>
-          <waypoint><time>5.0</time>  <pose>5 -4 0 0 0  1.57</pose></waypoint>
-          <waypoint><time>9.9</time>  <pose>5  8 0 0 0  1.57</pose></waypoint>
-          <waypoint><time>10.0</time> <pose>5  8 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>0</time>    <pose>5 6.5 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>8.0</time>  <pose>5  -2 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>11.0</time> <pose>5  -2 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>19.0</time> <pose>5 6.5 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>22.0</time> <pose>5 6.5 0 0 0 -1.57</pose></waypoint>
         </trajectory>
       </script>
     </actor>
 
     <model name="ped4_collision">
-      <pose>5 8 0 0 0 -1.57</pose>
+      <pose>5 6.5 0 0 0 -1.57</pose>
       <static>false</static>
       <link name="body">
         <collision name="col">
