@@ -32,7 +32,7 @@ def generate_launch_description():
     world = LaunchConfiguration('world', default=os.path.join(
         get_package_share_directory('raspicat_gazebo'),
         'worlds',
-        'iscas_museum.world')
+        'iscas_museum_with_pedestrians.world')
     )
 
     declare_use_sim_time = DeclareLaunchArgument(
@@ -49,7 +49,7 @@ def generate_launch_description():
         'world', default_value=os.path.join(
             get_package_share_directory('raspicat_gazebo'),
             'worlds',
-            'iscas_museum.world'),
+            'iscas_museum_with_pedestrians.world'),
         description='world configuration file path'
     )
 
