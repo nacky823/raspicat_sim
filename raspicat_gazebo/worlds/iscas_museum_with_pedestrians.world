@@ -165,7 +165,53 @@
         <z_offset>0.0</z_offset>
       </plugin>
     </model>
+
     <!-- ================================= 歩行者: 3人目 ================================= -->
+    <actor name="ped3">
+      <pose>-4 3 0 0 0 3.14</pose>
+      <skin><filename>model://walking_person/meshes/walk.dae</filename></skin>
+      <animation name="walking">
+        <filename>model://walking_person/meshes/walk.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <script>
+        <trajectory id="0" type="walking">
+          <waypoint><time>0</time>  <pose>-4 3 0 0 0 3.14</pose></waypoint>
+          <waypoint><time>10</time> <pose>9 -5 0 0 0  3.14</pose></waypoint>
+          <waypoint><time>20</time> <pose>-7 6 0 0 0  0</pose></waypoint>
+          <waypoint><time>30</time> <pose>9 5 0 0 0  0</pose></waypoint>
+          <waypoint><time>40</time> <pose>0 2.1 0 0 0 -3.14</pose></waypoint>
+          <waypoint><time>50</time> <pose>6 0.1 0 0 0 -3.14</pose></waypoint>
+          <waypoint><time>60</time> <pose>-4 3 0 0 0 3.14</pose></waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <model name="ped3_collision">
+      <pose>-4 3 0 0 0 3.14</pose>
+      <static>false</static>
+      <link name="body">
+        <collision name="col">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><cylinder><radius>0.3</radius> <length>1.8</length></cylinder></geometry>
+        </collision>
+        <visual name="vis">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><cylinder><radius>0.3</radius> <length>1.8</length></cylinder></geometry>
+          <material>
+            <ambient>0 0 0 0</ambient> <diffuse>0 0 0 0</diffuse>
+            <specular>0 0 0 0</specular> <emissive>0 0 0 0</emissive>
+            <transparency>1.0</transparency>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+      </link>
+      <plugin name="follow_ped2" filename="libfollow_actor.so">
+        <actor_name>ped2</actor_name>
+        <link_name>body</link_name>
+        <z_offset>0.0</z_offset>
+      </plugin>
+    </model>
 
   </world>
 </sdf>
