@@ -29,7 +29,7 @@
 
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>0 0 30 0 1.57 0</pose>
+        <pose frame=''>0 0 30 0 1.57 1.57</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -41,9 +41,7 @@
       <!-- 初期姿勢: x y z R P Y -->
       <pose>-5.5 9 0 0 0 0</pose>
 
-      <!-- 歩行アニメのスキン。walk.dae の置き場所は後述 -->
       <skin>
-        <!-- 例: パッケージの models/walking_person/meshes/walk.dae に置いた場合 -->
         <filename>model://walking_person/meshes/walk.dae</filename>
       </skin>
 
@@ -52,7 +50,7 @@
         <interpolate_x>true</interpolate_x>
       </animation>
 
-      <!-- ウェイポイント軌道（必要に応じて編集OK） -->
+      <!-- Waypoint軌道（必要に応じて編集） -->
       <script>
         <trajectory id="0" type="walking">
           <waypoint><time>0</time>  <pose>-5.5 9 0 0 0    0</pose></waypoint>
@@ -104,7 +102,7 @@
       <plugin name="follow_ped1" filename="libfollow_actor.so">
         <actor_name>ped1</actor_name>   <!-- 追従したいActor名 -->
         <link_name>body</link_name>     <!-- 動かすリンク名 -->
-        <z_offset>0.0</z_offset>        <!-- 必要なら微調整 -->
+        <z_offset>0.0</z_offset>
       </plugin>
     </model>
 
