@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <sdf version='1.6'>
-  <world name='iscas_museum_outer_walls'>
+  <world name='walled_square_arena'>
     <include>
       <uri>model://sun</uri>
     </include>
@@ -36,7 +36,7 @@
       <pose>0 0 0 0 0 0</pose>
       <!-- Dimensions derived from the original ISCAS museum mesh bounding box -->
       <link name='north_wall'>
-        <pose>0 44.136 1.5 0 0 0</pose>
+        <pose>0 8.0395 1.5 0 0 0</pose>
         <collision name='north_wall_collision'>
           <geometry>
             <box>
@@ -58,7 +58,7 @@
       </link>
 
       <link name='south_wall'>
-        <pose>0 -44.136 1.5 0 0 0</pose>
+        <pose>0 -8.0395 1.5 0 0 0</pose>
         <collision name='south_wall_collision'>
           <geometry>
             <box>
@@ -84,14 +84,14 @@
         <collision name='east_wall_collision'>
           <geometry>
             <box>
-              <size>0.3 88.273 3.0</size>
+              <size>0.3 16.079 3.0</size>
             </box>
           </geometry>
         </collision>
         <visual name='east_wall_visual'>
           <geometry>
             <box>
-              <size>0.3 88.273 3.0</size>
+              <size>0.3 16.079 3.0</size>
             </box>
           </geometry>
           <material>
@@ -106,14 +106,14 @@
         <collision name='west_wall_collision'>
           <geometry>
             <box>
-              <size>0.3 88.273 3.0</size>
+              <size>0.3 16.079 3.0</size>
             </box>
           </geometry>
         </collision>
         <visual name='west_wall_visual'>
           <geometry>
             <box>
-              <size>0.3 88.273 3.0</size>
+              <size>0.3 16.079 3.0</size>
             </box>
           </geometry>
           <material>

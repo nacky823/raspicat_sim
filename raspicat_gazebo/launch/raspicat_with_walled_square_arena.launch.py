@@ -34,7 +34,7 @@ def generate_launch_description():
         default=os.path.join(
             get_package_share_directory('raspicat_gazebo'),
             'worlds',
-            'iscas_museum_outer_walls.world'
+            'walled_square_arena.world'
         )
     )
 
@@ -52,7 +52,7 @@ def generate_launch_description():
         default_value=os.path.join(
             get_package_share_directory('raspicat_gazebo'),
             'worlds',
-            'iscas_museum_outer_walls.world'),
+            'walled_square_arena.world'),
         description='world configuration file path'
     )
 
