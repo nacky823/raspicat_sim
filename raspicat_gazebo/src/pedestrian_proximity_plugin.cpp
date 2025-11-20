@@ -52,6 +52,7 @@ public:
     this->script_time_ = this->actor_->ScriptTime();
     this->script_length_ = this->ComputeScriptLength(_model->GetSDF());
     this->last_update_time_ = this->world_->SimTime();
+    this->last_pose_ = this->actor_->WorldPose();
 
     this->update_connection_ = event::Events::ConnectWorldUpdateBegin(
       std::bind(&PedestrianProximityPlugin::OnUpdate, this, std::placeholders::_1));
@@ -120,10 +121,20 @@ private:
     if (this->script_length_ > 0.0)
       this->script_time_ = std::fmod(this->script_time_, this->script_length_);
 
-    // Advancing script time drives both the trajectory and the walking animation.
-    this->actor_->SetScriptTime(this->script_time_);
+    if (this->stopped_)
+    {
+      // Freeze the actor at the last valid pose and animation frame.
+      this->actor_->SetWorldPose(this->last_pose_);
+      this->actor_->SetScriptTime(this->script_time_);
+    }
+    else
+    {
+      // Advance walking by updating script time; store pose/time for potential freeze.
+      this->actor_->SetScriptTime(this->script_time_);
+      this->last_pose_ = this->actor_->WorldPose();
+    }
 
-    // Keep velocities zero; actors are kinematic and driven by script time.
+    // Keep velocities zero; actors are kinematic and driven by script time or explicit pose.
     this->actor_->SetLinearVel(ignition::math::Vector3d::Zero);
     this->actor_->SetAngularVel(ignition::math::Vector3d::Zero);
   }
@@ -137,6 +148,7 @@ private:
   double resume_distance_{1.5};
   double script_time_{0.0};
   double script_length_{0.0};
+  ignition::math::Pose3d last_pose_;
   bool stopped_{false};
   common::Time last_update_time_;
   event::ConnectionPtr update_connection_;
