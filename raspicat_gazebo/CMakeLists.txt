@@ -17,6 +17,11 @@ target_link_libraries(follow_actor ${GAZEBO_LIBRARIES})
 target_include_directories(follow_actor PRIVATE ${GAZEBO_INCLUDE_DIRS})
 set_target_properties(follow_actor PROPERTIES OUTPUT_NAME "follow_actor")
 
+add_library(pedestrian_proximity SHARED src/pedestrian_proximity_plugin.cpp)
+target_link_libraries(pedestrian_proximity ${GAZEBO_LIBRARIES})
+target_include_directories(pedestrian_proximity PRIVATE ${GAZEBO_INCLUDE_DIRS})
+set_target_properties(pedestrian_proximity PROPERTIES OUTPUT_NAME "pedestrian_proximity")
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   set(ament_cmake_copyright_FOUND TRUE)
@@ -24,7 +29,7 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-install(TARGETS follow_actor
+install(TARGETS follow_actor pedestrian_proximity
   LIBRARY DESTINATION lib
 )
 
