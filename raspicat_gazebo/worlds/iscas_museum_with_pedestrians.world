@@ -72,7 +72,7 @@
       <plugin name="ped1_proximity" filename="libpedestrian_proximity.so">
         <robot_model_name>raspicat</robot_model_name>
         <walk_speed>1.0</walk_speed>
-        <stop_distance>1.0</stop_distance>
+        <stop_distance>2.0</stop_distance>
         <resume_distance>1.5</resume_distance>
       </plugin>
 
@@ -163,7 +163,7 @@
       <plugin name="ped2_proximity" filename="libpedestrian_proximity.so">
         <robot_model_name>raspicat</robot_model_name>
         <walk_speed>1.0</walk_speed>
-        <stop_distance>1.0</stop_distance>
+        <stop_distance>2.0</stop_distance>
         <resume_distance>1.5</resume_distance>
       </plugin>
     </actor>
@@ -245,7 +245,7 @@
       <plugin name="ped3_proximity" filename="libpedestrian_proximity.so">
         <robot_model_name>raspicat</robot_model_name>
         <walk_speed>1.0</walk_speed>
-        <stop_distance>1.0</stop_distance>
+        <stop_distance>2.0</stop_distance>
         <resume_distance>1.5</resume_distance>
       </plugin>
     </actor>
@@ -305,7 +305,7 @@
       <plugin name="ped4_proximity" filename="libpedestrian_proximity.so">
         <robot_model_name>raspicat</robot_model_name>
         <walk_speed>1.0</walk_speed>
-        <stop_distance>1.0</stop_distance>
+        <stop_distance>2.0</stop_distance>
         <resume_distance>1.5</resume_distance>
       </plugin>
     </actor>
