@@ -115,24 +115,35 @@ private:
       }
     }
 
-    const double speed = this->stopped_ ? 0.0 : this->walk_speed_;
-    this->script_time_ += speed * dt;
-
-    if (this->script_length_ > 0.0)
-      this->script_time_ = std::fmod(this->script_time_, this->script_length_);
+    // Transition logic: only call Play/Stop when the state changes.
+    if (this->stopped_ && !this->was_stopped_)
+    {
+      this->actor_->Stop();
+      this->script_time_ = this->actor_->ScriptTime();
+      this->last_pose_ = this->actor_->WorldPose();
+    }
+    else if (!this->stopped_ && this->was_stopped_)
+    {
+      this->actor_->Play();
+      this->script_time_ = this->actor_->ScriptTime();
+    }
 
     if (this->stopped_)
     {
-      // Freeze the actor at the last valid pose and animation frame.
-      this->actor_->SetWorldPose(this->last_pose_);
+      // Hold pose/time steady so Gazebo does not advance the waypoint or animation.
       this->actor_->SetScriptTime(this->script_time_);
+      this->actor_->SetWorldPose(this->last_pose_);
     }
     else
     {
-      // Advance walking by updating script time; store pose/time for potential freeze.
+      this->script_time_ += this->walk_speed_ * dt;
+      if (this->script_length_ > 0.0)
+        this->script_time_ = std::fmod(this->script_time_, this->script_length_);
+
       this->actor_->SetScriptTime(this->script_time_);
       this->last_pose_ = this->actor_->WorldPose();
     }
+    this->was_stopped_ = this->stopped_;
 
     // Keep velocities zero; actors are kinematic and driven by script time or explicit pose.
     this->actor_->SetLinearVel(ignition::math::Vector3d::Zero);
@@ -150,6 +161,7 @@ private:
   double script_length_{0.0};
   ignition::math::Pose3d last_pose_;
   bool stopped_{false};
+  bool was_stopped_{false};
   common::Time last_update_time_;
   event::ConnectionPtr update_connection_;
 };
