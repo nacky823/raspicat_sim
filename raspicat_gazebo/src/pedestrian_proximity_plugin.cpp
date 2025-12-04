@@ -115,17 +115,20 @@ private:
       }
     }
 
-    // Transition logic: only call Play/Stop when the state changes.
+    // Transition logic: snapshot progress at stop time and re-apply it on resume.
     if (this->stopped_ && !this->was_stopped_)
     {
-      this->actor_->Stop();
       this->script_time_ = this->actor_->ScriptTime();
       this->last_pose_ = this->actor_->WorldPose();
     }
     else if (!this->stopped_ && this->was_stopped_)
     {
-      this->actor_->Play();
-      this->script_time_ = this->actor_->ScriptTime();
+      // Some gazebo versions reset the actor's internal timers when Stop/Play is used,
+      // which pushes the script back to the first waypoint. Avoid using Stop/Play and
+      // instead re-apply the saved script progress so playback continues from where
+      // it was paused.
+      this->actor_->SetScriptTime(this->script_time_);
+      this->actor_->SetWorldPose(this->last_pose_);
     }
 
     if (this->stopped_)
