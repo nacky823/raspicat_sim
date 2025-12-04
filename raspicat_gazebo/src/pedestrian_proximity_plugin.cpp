@@ -137,13 +137,16 @@ private:
     {
       this->script_time_ = this->actor_->ScriptTime();
       this->last_pose_ = this->actor_->WorldPose();
+      // Stop the actor animation to prevent internal motion, then restore time/pose
+      // so it will resume from the paused point later.
+      this->actor_->Stop();
+      this->actor_->SetScriptTime(this->script_time_);
+      this->actor_->SetWorldPose(this->last_pose_);
     }
     else if (!this->stopped_ && this->was_stopped_)
     {
-      // Some gazebo versions reset the actor's internal timers when Stop/Play is used,
-      // which pushes the script back to the first waypoint. Avoid using Stop/Play and
-      // instead re-apply the saved script progress so playback continues from where
-      // it was paused.
+      // Resume animation but keep the saved progress to avoid restarting from the first waypoint.
+      this->actor_->Play();
       this->actor_->SetScriptTime(this->script_time_);
       this->actor_->SetWorldPose(this->last_pose_);
     }
