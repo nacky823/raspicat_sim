@@ -142,6 +142,7 @@ private:
       this->actor_->Stop();
       this->actor_->SetScriptTime(this->script_time_);
       this->actor_->SetWorldPose(this->last_pose_);
+      this->resume_sync_time_ = 0.0;
     }
     else if (!this->stopped_ && this->was_stopped_)
     {
@@ -149,6 +150,8 @@ private:
       this->actor_->Play();
       this->actor_->SetScriptTime(this->script_time_);
       this->actor_->SetWorldPose(this->last_pose_);
+      // For a short duration, keep overriding pose/time to counter any Play() reset.
+      this->resume_sync_time_ = this->resume_sync_window_;
     }
 
     if (this->stopped_)
@@ -159,6 +162,19 @@ private:
     }
     else
     {
+      if (this->resume_sync_time_ > 0.0)
+      {
+        // Keep pose/time pinned for a brief window after resuming to avoid a jump
+        // back to the first waypoint caused by Play().
+        this->resume_sync_time_ = std::max(0.0, this->resume_sync_time_ - dt);
+        this->actor_->SetScriptTime(this->script_time_);
+        this->actor_->SetWorldPose(this->last_pose_);
+        this->actor_->SetLinearVel(ignition::math::Vector3d::Zero);
+        this->actor_->SetAngularVel(ignition::math::Vector3d::Zero);
+        this->was_stopped_ = this->stopped_;
+        return;
+      }
+
       this->script_time_ += this->walk_speed_ * dt;
       if (this->script_length_ > 0.0)
         this->script_time_ = std::fmod(this->script_time_, this->script_length_);
@@ -179,7 +195,7 @@ private:
     if (!this->actor_ || !this->world_)
       return;
 
-    if (this->stopped_)
+    if (this->stopped_ || this->resume_sync_time_ > 0.0)
     {
       this->actor_->SetScriptTime(this->script_time_);
       this->actor_->SetWorldPose(this->last_pose_);
@@ -200,6 +216,8 @@ private:
   ignition::math::Pose3d last_pose_;
   double resume_dwell_time_{0.3};
   double time_far_enough_{0.0};
+  double resume_sync_time_{0.0};
+  const double resume_sync_window_{0.05};  // seconds to keep overriding after Play()
   bool stopped_{false};
   bool was_stopped_{false};
   common::Time last_update_time_;
