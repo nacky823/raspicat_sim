@@ -39,7 +39,7 @@
     <!-- ====== A) 歩行者の見た目・歩行軌道 ====== -->
     <actor name="ped1">
       <!-- 初期姿勢: x y z R P Y -->
-      <pose>5 0 0 0 0 -1.571</pose>
+      <pose>5 0 0 0 0 1.571</pose>
 
       <skin>
         <filename>model://walking_person/meshes/walk.dae</filename>
@@ -62,11 +62,11 @@
       </script> -->
       <script>
         <trajectory id="0" type="walking">
-          <waypoint><time>0.000</time> <pose>5 0 0 0 0 -1.571</pose></waypoint>
-          <waypoint><time>70.000</time> <pose>5 -7 0 0 0 -1.571</pose></waypoint>
-          <waypoint><time>70.500</time> <pose>5 -7 0 0 0 1.571</pose></waypoint>
+          <waypoint><time>0.000</time> <pose>5 0 0 0 0 1.571</pose></waypoint>
+          <waypoint><time>70.000</time> <pose>5 7 0 0 0 1.571</pose></waypoint>
+          <waypoint><time>70.500</time> <pose>5 7 0 0 0 -1.571</pose></waypoint>
           <waypoint><time>140.500</time> <pose>5 0 0 0 0 1.571</pose></waypoint>
-          <waypoint><time>141.000</time> <pose>5 0 0 0 0 -1.571</pose></waypoint>
+          <waypoint><time>141.000</time> <pose>5 0 0 0 0 1.571</pose></waypoint>
         </trajectory>
       </script>
       <plugin name="ped1_proximity" filename="libpedestrian_proximity.so">
@@ -81,7 +81,7 @@
     <!-- ====== B) LIDARに映る衝突体（Actorに追従させる円柱） ====== -->
     <model name="ped1_collision">
       <!-- Actorと同じ初期姿勢にしておく -->
-      <pose>5 0 0 0 0 -1.571</pose>
+      <pose>5 0 0 0 0 1.571</pose>
       <static>false</static>
       <link name="body">
         <!-- 衝突（円柱）：半径/長さは人の胴体っぽく調整 -->
