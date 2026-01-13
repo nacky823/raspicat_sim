@@ -63,7 +63,7 @@
       </script>
       <plugin name="ped4_proximity" filename="libpedestrian_proximity.so">
         <robot_model_name>raspicat</robot_model_name>
-        <walk_speed>1.0</walk_speed>
+        <walk_speed>0.5</walk_speed>
         <stop_distance>1.4</stop_distance>
         <resume_distance>1.5</resume_distance>
       </plugin>

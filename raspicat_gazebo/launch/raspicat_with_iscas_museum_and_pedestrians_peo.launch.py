@@ -29,6 +29,7 @@ def generate_launch_description():
     gui = LaunchConfiguration('gui', default='true')
     x_pose = LaunchConfiguration('x_pose', default='5.0')
     y_pose = LaunchConfiguration('y_pose', default='-3.0')
+    yaw_pose = LaunchConfiguration('yaw_pose', default='1.5708')
     world = LaunchConfiguration('world', default=os.path.join(
         get_package_share_directory('raspicat_gazebo'),
         'worlds',
@@ -60,6 +61,9 @@ def generate_launch_description():
     declare_y_position = DeclareLaunchArgument(
         'y_pose', default_value='-3.0',
         description='y position of robot')
+    declare_yaw_position = DeclareLaunchArgument(
+        'yaw_pose', default_value='1.5708',
+        description='yaw position of robot (rad)')
 
     raspicat_with_emptyworld = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -70,6 +74,7 @@ def generate_launch_description():
             'gui': gui,
             'x_pose': x_pose,
             'y_pose': y_pose,
+            'yaw_pose': yaw_pose,
             'world': world,
         }.items()
     )
@@ -80,6 +85,7 @@ def generate_launch_description():
     ld.add_action(declare_world)
     ld.add_action(declare_x_position)
     ld.add_action(declare_y_position)
+    ld.add_action(declare_yaw_position)
 
     ld.add_action(raspicat_with_emptyworld)
 

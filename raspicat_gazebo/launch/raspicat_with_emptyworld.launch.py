@@ -34,6 +34,7 @@ def generate_launch_description():
     world = LaunchConfiguration('world')
     x_pose = LaunchConfiguration('x_pose', default='0.0')
     y_pose = LaunchConfiguration('y_pose', default='0.0')
+    yaw_pose = LaunchConfiguration('yaw_pose', default='0.0')
 
     declare_verbose = DeclareLaunchArgument(
         'verbose', default_value='false',
@@ -56,6 +57,9 @@ def generate_launch_description():
     declare_y_position = DeclareLaunchArgument(
         'y_pose', default_value='0.0',
         description='y position of robot')
+    declare_yaw_position = DeclareLaunchArgument(
+        'yaw_pose', default_value='0.0',
+        description='yaw position of robot (rad)')
 
     gzserver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -86,7 +90,8 @@ def generate_launch_description():
         ),
         launch_arguments={
             'x_pose': x_pose,
-            'y_pose': y_pose
+            'y_pose': y_pose,
+            'yaw_pose': yaw_pose
         }.items()
     )
 
@@ -105,6 +110,7 @@ def generate_launch_description():
     ld.add_action(declare_world)
     ld.add_action(declare_x_position)
     ld.add_action(declare_y_position)
+    ld.add_action(declare_yaw_position)
 
     ld.add_action(gzserver)
     ld.add_action(gzclient)
