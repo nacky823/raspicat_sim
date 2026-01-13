@@ -1,0 +1,330 @@
+<?xml version="1.0"?>
+<sdf version='1.6'>
+  <world name='default'>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://iscas_museum</uri>
+    </include>
+
+    <physics type="ode">
+      <real_time_update_rate>1000.0</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>80</iters>
+          <!-- <iters>150</iters> --> <!-- CPU負荷大 -->
+          <precon_iters>0</precon_iters>
+          <sor>1.400000</sor>
+          <use_dynamic_moi_rescaling>1</use_dynamic_moi_rescaling>
+        </solver>
+      </ode>
+    </physics>
+
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>0 0 30 0 1.57 1.57</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+
+    <!-- ================================= 歩行者: 1人目 ================================= -->
+    <!-- ====== A) 歩行者の見た目・歩行軌道 ====== -->
+    <actor name="ped1">
+      <!-- 初期姿勢: x y z R P Y -->
+      <pose>5 0 0 0 0 1.571</pose>
+
+      <skin>
+        <filename>model://walking_person/meshes/walk.dae</filename>
+      </skin>
+
+      <animation name="walking">
+        <filename>model://walking_person/meshes/walk.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+
+      <!-- Waypoint軌道（必要に応じて編集） -->
+      <!-- <script>
+        <trajectory id="0" type="walking">
+          <waypoint><time>0</time>  <pose>-5.5 9 0 0 0    0</pose></waypoint>
+          <waypoint><time>10</time> <pose>   4 9 0 0 0    0</pose></waypoint>
+          <waypoint><time>13</time> <pose>   4 9 0 0 0 3.14</pose></waypoint>
+          <waypoint><time>23</time> <pose>-5.5 9 0 0 0 3.14</pose></waypoint>
+          <waypoint><time>26</time> <pose>-5.5 9 0 0 0    0</pose></waypoint>
+        </trajectory>
+      </script> -->
+      <script>
+        <trajectory id="0" type="walking">
+          <waypoint><time>0.000</time> <pose>5 0 0 0 0 1.571</pose></waypoint>
+          <waypoint><time>70.000</time> <pose>5 7 0 0 0 1.571</pose></waypoint>
+          <waypoint><time>70.500</time> <pose>5 7 0 0 0 -1.571</pose></waypoint>
+          <waypoint><time>140.500</time> <pose>5 0 0 0 0 1.571</pose></waypoint>
+          <waypoint><time>141.000</time> <pose>5 0 0 0 0 1.571</pose></waypoint>
+        </trajectory>
+      </script>
+      <plugin name="ped1_proximity" filename="libpedestrian_proximity.so">
+        <robot_model_name>raspicat</robot_model_name>
+        <walk_speed>1.0</walk_speed>
+        <stop_distance>1.4</stop_distance>
+        <resume_distance>1.5</resume_distance>
+      </plugin>
+
+    </actor>
+
+    <!-- ====== B) LIDARに映る衝突体（Actorに追従させる円柱） ====== -->
+    <model name="ped1_collision">
+      <!-- Actorと同じ初期姿勢にしておく -->
+      <pose>5 0 0 0 0 1.571</pose>
+      <static>false</static>
+      <link name="body">
+        <!-- 衝突（円柱）：半径/長さは人の胴体っぽく調整 -->
+        <collision name="col">
+          <pose>0 0 0 0 0 0</pose> <!-- 中心を地上0.9mに（長さ1.8mの中央が人の胴体中心に来る） -->
+          <geometry>
+            <cylinder>
+              <radius>0.3</radius>
+              <length>1.8</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <!-- 視覚（任意）：RViz/Gazeboで見えるように -->
+        <visual name="vis">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.3</radius>
+              <length>1.8</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 0 0</ambient>
+            <diffuse>0 0 0 0</diffuse>
+            <specular>0 0 0 0</specular>
+            <emissive>0 0 0 0</emissive>
+            <transparency>1.0</transparency> <!-- 完全透明 -->
+          </material>
+          <cast_shadows>false</cast_shadows> <!-- 影も消す -->
+        </visual>
+      </link>
+
+      <!-- 追従プラグイン：Actor ped1 のPoseに同期移動させる -->
+      <plugin name="follow_ped1" filename="libfollow_actor.so">
+        <actor_name>ped1</actor_name>   <!-- 追従したいActor名 -->
+        <link_name>body</link_name>     <!-- 動かすリンク名 -->
+        <z_offset>0.0</z_offset>
+      </plugin>
+    </model>
+
+
+    <!-- ================================= 追加: ped4 (peo) ================================= -->
+<actor name="ped4">
+      <pose>5 6.5 0 0 0 -1.57</pose>
+      <skin><filename>model://walking_person/meshes/walk.dae</filename></skin>
+      <animation name="walking">
+        <filename>model://walking_person/meshes/walk.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <!-- <script>
+        <trajectory id="0" type="walking">
+          <waypoint><time>0</time>    <pose>5 6.5 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>8.0</time>  <pose>5  -2 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>11.0</time> <pose>5  -2 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>19.0</time> <pose>5 6.5 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>22.0</time> <pose>5 6.5 0 0 0 -1.57</pose></waypoint>
+        </trajectory>
+      </script> -->
+      <script>
+        <trajectory id="0" type="walking">
+          <waypoint><time>0.000</time>  <pose>5 6.5 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>28.333</time> <pose>5  -2 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>28.833</time> <pose>5  -2 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>57.167</time> <pose>5 6.5 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>57.667</time> <pose>5 6.5 0 0 0 -1.57</pose></waypoint>
+        </trajectory>
+      </script>
+      <plugin name="ped4_proximity" filename="libpedestrian_proximity.so">
+        <robot_model_name>raspicat</robot_model_name>
+        <walk_speed>0.3</walk_speed>
+        <stop_distance>1.4</stop_distance>
+        <resume_distance>1.5</resume_distance>
+      </plugin>
+    </actor>
+
+    <model name="ped4_collision">
+      <pose>5 6.5 0 0 0 -1.57</pose>
+      <static>false</static>
+      <link name="body">
+        <collision name="col">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><cylinder><radius>0.3</radius> <length>1.8</length></cylinder></geometry>
+        </collision>
+        <visual name="vis">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><cylinder><radius>0.3</radius> <length>1.8</length></cylinder></geometry>
+          <material>
+            <ambient>0 0 0 0</ambient><diffuse>0 0 0 0</diffuse>
+            <specular>0 0 0 0</specular><emissive>0 0 0 0</emissive>
+            <transparency>1.0</transparency>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+      </link>
+      <plugin name="follow_ped4" filename="libfollow_actor.so">
+        <actor_name>ped4</actor_name>
+        <link_name>body</link_name>
+        <z_offset>0.0</z_offset>
+      </plugin>
+    </model>
+
+    <!-- ================================= 追加: ped3 (its) ================================= -->
+<actor name="ped3">
+      <pose>0 4.5 0 0 0 1.57</pose>
+      <skin><filename>model://walking_person/meshes/walk.dae</filename></skin>
+      <animation name="walking">
+        <filename>model://walking_person/meshes/walk.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <!-- <script>
+        <trajectory id="0" type="walking">
+          <waypoint><time>0</time>    <pose> -1 -3.5 0 0 0  3.14</pose></waypoint>
+          <waypoint><time>1.5</time>  <pose> -1 -3.5 0 0 0  3.14</pose></waypoint>
+          <waypoint><time>2.0</time>  <pose> -1 -3.5 0 0 0     0</pose></waypoint>
+          <waypoint><time>4.5</time>  <pose>0.5 -3.5 0 0 0     0</pose></waypoint>
+          <waypoint><time>5.0</time>  <pose>0.5 -3.5 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>7.5</time>  <pose>0.5   -8 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>8.0</time>  <pose>0.5   -8 0 0 0     0</pose></waypoint>
+          <waypoint><time>12.5</time> <pose>  5   -8 0 0 0     0</pose></waypoint>
+          <waypoint><time>13.0</time> <pose>  5   -8 0 0 0  1.75</pose></waypoint>
+          <waypoint><time>14.5</time> <pose>  5   -7 0 0 0  1.75</pose></waypoint>
+          <waypoint><time>15.0</time> <pose>  5   -7 0 0 0  3.14</pose></waypoint>
+          <waypoint><time>19.5</time> <pose>0.5   -7 0 0 0  3.14</pose></waypoint>
+          <waypoint><time>20.0</time> <pose>0.5   -7 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>22.5</time> <pose>0.5 -3.5 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>23.0</time> <pose>0.5 -3.5 0 0 0  3.14</pose></waypoint>
+          <waypoint><time>25.0</time> <pose> -1 -3.5 0 0 0  3.14</pose></waypoint>
+        </trajectory>
+      </script> -->
+      <script>
+        <trajectory id="0" type="walking">
+          <waypoint><time>0.000</time>  <pose>0 4.5 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>16.667</time> <pose>0 9.5 0 0 0  1.57</pose></waypoint>
+          <waypoint><time>17.167</time> <pose>0 9.5 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>33.833</time> <pose>0 4.5 0 0 0 -1.57</pose></waypoint>
+          <waypoint><time>34.333</time> <pose>0 4.5 0 0 0  1.57</pose></waypoint>
+        </trajectory>
+      </script>
+      <plugin name="ped3_proximity" filename="libpedestrian_proximity.so">
+        <robot_model_name>raspicat</robot_model_name>
+        <walk_speed>1.0</walk_speed>
+        <stop_distance>1.4</stop_distance>
+        <resume_distance>1.5</resume_distance>
+      </plugin>
+    </actor>
+
+    <model name="ped3_collision">
+      <pose>0 4.5 0 0 0 1.57</pose>
+      <static>false</static>
+      <link name="body">
+        <collision name="col">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><cylinder><radius>0.3</radius> <length>1.8</length></cylinder></geometry>
+        </collision>
+        <visual name="vis">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><cylinder><radius>0.3</radius> <length>1.8</length></cylinder></geometry>
+          <material>
+            <ambient>0 0 0 0</ambient><diffuse>0 0 0 0</diffuse>
+            <specular>0 0 0 0</specular><emissive>0 0 0 0</emissive>
+            <transparency>1.0</transparency>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+      </link>
+      <plugin name="follow_ped3" filename="libfollow_actor.so">
+        <actor_name>ped3</actor_name>
+        <link_name>body</link_name>
+        <z_offset>0.0</z_offset>
+      </plugin>
+    </model>
+
+    <!-- ================================= 追加: ped2 (dits) ================================= -->
+<actor name="ped2">
+      <pose>-5 4.5 0 0 0 1.190</pose>
+      <skin><filename>model://walking_person/meshes/walk.dae</filename></skin>
+      <animation name="walking">
+        <filename>model://walking_person/meshes/walk.dae</filename>
+        <interpolate_x>true</interpolate_x>
+      </animation>
+      <!-- <script>
+        <trajectory id="0" type="walking">
+          <waypoint><time>0</time>    <pose>3.5 5 0 0 0   1.75</pose></waypoint>
+          <waypoint><time>4.0</time>  <pose>3.5 8 0 0 0   1.75</pose></waypoint>
+          <waypoint><time>6.0</time>  <pose>3.5 8 0 0 0 -2.265</pose></waypoint>
+          <waypoint><time>11.0</time> <pose> -1 5 0 0 0 -2.265</pose></waypoint>
+          <waypoint><time>13.0</time> <pose> -1 5 0 0 0   1.75</pose></waypoint>
+          <waypoint><time>17.0</time> <pose> -1 8 0 0 0   1.75</pose></waypoint>
+          <waypoint><time>19.0</time> <pose> -1 8 0 0 0 -2.265</pose></waypoint>
+          <waypoint><time>24.0</time> <pose> -5 5 0 0 0 -2.265</pose></waypoint>
+          <waypoint><time>26.0</time> <pose> -5 5 0 0 0      0</pose></waypoint>
+          <waypoint><time>32.0</time> <pose>3.5 5 0 0 0      0</pose></waypoint>
+          <waypoint><time>35.0</time> <pose>3.5 5 0 0 0   1.75</pose></waypoint>
+        </trajectory>
+      </script> -->
+      <script>
+        <trajectory id="0" type="walking">
+          <waypoint><time>0.000</time> <pose>-5 4.5 0 0 0 1.190</pose></waypoint>
+          <waypoint><time>17.951</time> <pose>-3 9.5 0 0 0 1.190</pose></waypoint>
+          <waypoint><time>35.901</time> <pose>-1 4.5 0 0 0 -1.190</pose></waypoint>
+          <waypoint><time>53.852</time> <pose>1 9.5 0 0 0 1.190</pose></waypoint>
+          <waypoint><time>71.802</time> <pose>3 4.5 0 0 0 -1.190</pose></waypoint>
+          <waypoint><time>89.753</time> <pose>5 9.5 0 0 0 1.190</pose></waypoint>
+          <waypoint><time>107.703</time> <pose>3 4.5 0 0 0 -1.951</pose></waypoint>
+          <waypoint><time>125.654</time> <pose>1 9.5 0 0 0 1.951</pose></waypoint>
+          <waypoint><time>143.604</time> <pose>-1 4.5 0 0 0 -1.951</pose></waypoint>
+          <waypoint><time>161.555</time> <pose>-3 9.5 0 0 0 1.951</pose></waypoint>
+          <waypoint><time>179.505</time> <pose>-5 4.5 0 0 0 -1.951</pose></waypoint>
+        </trajectory>
+      </script>
+      <plugin name="ped2_proximity" filename="libpedestrian_proximity.so">
+        <robot_model_name>raspicat</robot_model_name>
+        <walk_speed>1.0</walk_speed>
+        <stop_distance>1.4</stop_distance>
+        <resume_distance>1.5</resume_distance>
+      </plugin>
+    </actor>
+
+    <model name="ped2_collision">
+      <pose>-5 4.5 0 0 0 1.190</pose>
+      <static>false</static>
+      <link name="body">
+        <collision name="col">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><cylinder><radius>0.3</radius> <length>1.8</length></cylinder></geometry>
+        </collision>
+        <visual name="vis">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><cylinder><radius>0.3</radius> <length>1.8</length></cylinder></geometry>
+          <material>
+            <ambient>0 0 0 0</ambient><diffuse>0 0 0 0</diffuse>
+            <specular>0 0 0 0</specular><emissive>0 0 0 0</emissive>
+            <transparency>1.0</transparency>
+          </material>
+          <cast_shadows>false</cast_shadows>
+        </visual>
+      </link>
+      <plugin name="follow_ped2" filename="libfollow_actor.so">
+        <actor_name>ped2</actor_name>
+        <link_name>body</link_name>
+        <z_offset>0.0</z_offset>
+      </plugin>
+    </model>
+
+  </world>
+</sdf>
